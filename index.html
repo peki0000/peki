@@ -12,6 +12,60 @@
     <!-- SNEG EFEKAT -->
     <div id="snow-container"></div>
 
+    <!-- WIDGETI (LEVO GORE) -->
+    <div class="widgets-container">
+        
+        <!-- VREME WIDGET -->
+        <div class="widget-box">
+            <div class="widget-header">
+                <span id="weather-icon">☁️</span>
+                <span class="widget-label">PANČEVO</span>
+            </div>
+            <div class="widget-main">
+                <h2 id="temperature">--°C</h2>
+                <p id="weather-desc">Loading...</p>
+            </div>
+            <div class="widget-details">
+                <div class="detail-item">
+                    <span>💨</span>
+                    <span id="wind-speed">Wind: -- km/h</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SAT WIDGET -->
+        <div class="widget-box">
+            <div class="widget-header">
+                <span class="widget-icon">🕒</span>
+                <span class="widget-label">SERBIA TIME</span>
+            </div>
+            <div class="widget-main">
+                <h2 id="current-time">--:--:--</h2>
+            </div>
+            <div class="widget-details">
+                <p id="current-date">Loading...</p>
+            </div>
+        </div>
+
+        <!-- KALENDAR WIDGET -->
+        <div class="widget-box calendar-box">
+            <div class="widget-header">
+                <span class="widget-icon">📅</span>
+                <span class="widget-label">CALENDAR</span>
+            </div>
+            <div class="calendar-list">
+                <div class="day-item" data-day="0">Sunday</div>
+                <div class="day-item" data-day="1">Monday</div>
+                <div class="day-item" data-day="2">Tuesday</div>
+                <div class="day-item" data-day="3">Wednesday</div>
+                <div class="day-item" data-day="4">Thursday</div>
+                <div class="day-item" data-day="5">Friday</div>
+                <div class="day-item" data-day="6">Saturday</div>
+            </div>
+        </div>
+
+    </div>
+
     <!-- START EKRAN -->
     <div id="start-screen">
         <div id="start-text">KLIKNI ZA GAS</div>
@@ -48,37 +102,27 @@
             <i class="devicon-javascript-plain" title="JavaScript"></i>
         </div>
 
-        <!-- DONACIJE (SA NOVIM HD IKONICAMA) -->
+        <!-- DONACIJE -->
         <div class="donations-wrapper">
             <div class="crypto-container">
-                
-                <!-- BTC dugme -->
                 <div class="crypto-btn btc" onclick="copyCrypto('bc1q2234p0gntgzyvazhy2vvpttr76wtenxrsx6c9c', this)">
-                    <!-- Original BTC Logo -->
                     <svg class="crypto-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                         <path d="M23.638 14.904c-1.602-.572-2.837-.622-2.837-.622 1.623-1.077 2.455-2.648 2.053-4.576-.807-3.882-4.532-4.48-6.177-4.63l.36-1.444-2.37.005-.353 1.416c-.624-.156-1.266-.296-1.908-.426l.363-1.455-2.374-.004-.37 1.488c-.516-.117-1.085-.236-1.626-.358l-3.32-.83.002.008c-.733 1.636.32 2.76.626 2.923 1.15.288 1.472 1.05 1.442 1.66l-1.44 5.79c.086.022.2.053.324.1.09-.13.18-.266.26-.407l-1.464 5.92c-.176.435-.62.894-1.62 1.055l-.337.085-3.313-.827-.723 2.892c1.235.31 2.44.595 3.63.88l-.375 1.498 2.372.005.37-1.487c.654.177 1.288.337 1.916.48l-.37 1.484 2.373.003.358-1.436c2.72.514 4.77.622 6.136.19 3.525-1.11 4.14-4.223 2.37-6.257zm-6.22 4.957c-2.355.65-8.586-1.078-8.113-2.973.473-1.895 7.41 1.764 8.113 2.973zm.652-6.255c-2.147.593-7.83-1.08-7.398-2.808.43-1.728 6.755 1.706 7.398 2.808z"/>
                     </svg>
                     <span class="crypto-status">Bitcoin</span>
                 </div>
-
-                <!-- ETH dugme -->
                 <div class="crypto-btn eth" onclick="copyCrypto('0xeD246c733A6DADC5dE992d0b104ed2262f01A467', this)">
-                    <!-- Original ETH Logo -->
                     <svg class="crypto-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                         <path d="M11.944 17.97L4.58 13.62 11.943 24l7.37-10.38-7.372 4.35h.003zM12.056 0L4.69 12.223l7.365 4.354 7.365-4.35L12.056 0z"/>
                     </svg>
                     <span class="crypto-status">Ethereum</span>
                 </div>
-
-                <!-- LTC dugme -->
                 <div class="crypto-btn ltc" onclick="copyCrypto('MJCSEMezTaG6nQccLQm74mcpH4DpynkPaP', this)">
-                    <!-- Original LTC Logo -->
                     <svg class="crypto-icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                         <path d="M9.696 6.307L5.803 21.08h13.23l-1.07-4.279h-6.732l.855-3.238h4.638l1.07-4.28h-4.638L14.304 5h-4.608"/>
                     </svg>
                     <span class="crypto-status">Litecoin</span>
                 </div>
-
             </div>
         </div>
 
