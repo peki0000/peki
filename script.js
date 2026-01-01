@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeSlider = document.getElementById('volume-slider');
     const zvucnikDugme = document.getElementById('zvucnik');
 
+    // Elementi za Muzički Widget
+    const widgetPlayBtn = document.getElementById('widget-play-btn');
+    const musicProgress = document.getElementById('music-progress');
+    const currentSongTime = document.getElementById('current-song-time');
+    const songDuration = document.getElementById('song-duration');
+    const playIconPath = "M8 5v14l11-7z";
+    const pauseIconPath = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
+
     const avatarImg = document.getElementById('discord-avatar');
     const statusIndicator = document.getElementById('status-indicator');
     const usernameText = document.getElementById('discord-username');
@@ -45,11 +53,113 @@ document.addEventListener('DOMContentLoaded', () => {
             startScreen.style.opacity = '0';
             setTimeout(() => { startScreen.style.display = 'none'; }, 800);
             if(mainContent) mainContent.style.opacity = '1';
-            if(audio) audio.play().catch(err => console.log("Audio autoplay block:", err));
+            
+            // Pokreni pesmu i ažuriraj ikonicu na widgetu
+            if(audio) {
+                audio.play().then(() => {
+                    updatePlayIcon(true);
+                }).catch(err => console.log("Audio autoplay block:", err));
+            }
         });
     }
 
-    // --- 2. LOGIKA ZA GAŠENJE ZVUKA (MUTE) ---
+    // --- 2. LOGIKA ZA MUZIČKI WIDGET ---
+    
+    function updatePlayIcon(isPlaying) {
+        if(!widgetPlayBtn) return;
+        const svgPath = widgetPlayBtn.querySelector('path');
+        if(isPlaying) {
+            svgPath.setAttribute('d', pauseIconPath);
+        } else {
+            svgPath.setAttribute('d', playIconPath);
+        }
+    }
+
+    if(widgetPlayBtn) {
+        widgetPlayBtn.addEventListener('click', () => {
+            if(audio.paused) {
+                audio.play();
+                updatePlayIcon(true);
+            } else {
+                audio.pause();
+                updatePlayIcon(false);
+            }
+        });
+    }
+
+    function formatTime(seconds) {
+        const min = Math.floor(seconds / 60);
+        const sec = Math.floor(seconds % 60);
+        return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+
+    if(audio) {
+        audio.addEventListener('timeupdate', () => {
+            if(musicProgress) {
+                musicProgress.value = audio.currentTime;
+                // Provera da li je trajanje dostupno (nije NaN)
+                if(!isNaN(audio.duration)) {
+                    musicProgress.max = audio.duration;
+                    if(songDuration) songDuration.innerText = formatTime(audio.duration);
+                }
+            }
+            if(currentSongTime) currentSongTime.innerText = formatTime(audio.currentTime);
+        });
+
+        // Da bi trajanje bilo dostupno odmah, ponekad treba 'loadedmetadata'
+        audio.addEventListener('loadedmetadata', () => {
+            if(musicProgress) musicProgress.max = audio.duration;
+            if(songDuration) songDuration.innerText = formatTime(audio.duration);
+        });
+
+        if(musicProgress) {
+            musicProgress.addEventListener('input', () => {
+                audio.currentTime = musicProgress.value;
+            });
+        }
+    }
+
+    // --- 3. CRYPTO PRICES LOGIKA ---
+    async function updateCryptoPrices() {
+        try {
+            // CoinGecko API za BTC, ETH, SOL, LTC, USDC
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,litecoin,usd-coin&vs_currencies=usd&include_24hr_change=true');
+            const data = await response.json();
+
+            // Pomoćna funkcija za ažuriranje svakog coina
+            const updateCoin = (id, jsonId) => {
+                const priceEl = document.getElementById(`price-${id}`);
+                const changeEl = document.getElementById(`change-${id}`);
+                
+                if (data[jsonId]) {
+                    const price = data[jsonId].usd;
+                    const change = data[jsonId].usd_24h_change.toFixed(2);
+                    
+                    // Formatiranje cene (dodavanje zareza)
+                    const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+                    
+                    if(priceEl) priceEl.innerText = formattedPrice;
+                    
+                    if(changeEl) {
+                        changeEl.innerText = (change > 0 ? '+' : '') + change + '%';
+                        changeEl.className = 'coin-change'; // Reset klasa
+                        changeEl.classList.add(change >= 0 ? 'change-positive' : 'change-negative');
+                    }
+                }
+            };
+
+            updateCoin('bitcoin', 'bitcoin');
+            updateCoin('ethereum', 'ethereum');
+            updateCoin('solana', 'solana');
+            updateCoin('litecoin', 'litecoin');
+            updateCoin('usd-coin', 'usd-coin');
+
+        } catch (error) {
+            console.error("Greška sa kripto cenama:", error);
+        }
+    }
+
+    // --- 4. GLAVNA KONTROLA ZVUKA ---
     if(zvucnikDugme) {
         zvucnikDugme.addEventListener('click', () => {
             if (audio.muted) {
@@ -62,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 3. SLAJDER LOGIKA ---
     if(volumeSlider) {
         volumeSlider.addEventListener('input', () => {
             const val = parseFloat(volumeSlider.value);
@@ -74,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. DISCORD STATUS ---
+    // --- 5. DISCORD STATUS ---
     async function updateDiscordStatus() {
         try {
             const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
@@ -134,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 5. WIDGETI: VREME I SAT ---
+    // --- 6. WIDGETI: VREME I SAT ---
     function updateWidgets() {
         const timeElement = document.getElementById('current-time');
         const dateElement = document.getElementById('current-date');
@@ -156,20 +265,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. POPRAVLJENA FUNKCIJA ZA VREME (NOVO) ---
+    // --- 7. VREME (API) ---
     async function getWeather() {
         try {
-            // Dodajemo timestamp (cacheBuster) da se podaci uvek osveže
             const cacheBuster = new Date().getTime();
-            
-            // URL sa eksplicitnim parametrima za Pančevo
             const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=44.8708&longitude=20.6403&current=temperature_2m,weather_code,wind_speed_10m&timezone=Europe%2FBelgrade&forecast_days=1&t=${cacheBuster}`);
             
             if (!response.ok) throw new Error("API nije dostupan");
             
             const data = await response.json();
             
-            // Sigurna provera da li postoje podaci
             if (!data.current) throw new Error("Fale trenutni podaci");
 
             const temp = Math.round(data.current.temperature_2m);
@@ -187,7 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let desc = "Clear Sky";
             let icon = "☀️";
 
-            // WMO kodovi za vreme
             if (code >= 1 && code <= 3) { desc = "Partly Cloudy"; icon = "⛅"; }
             else if (code >= 45 && code <= 48) { desc = "Foggy"; icon = "🌫️"; }
             else if (code >= 51 && code <= 67) { desc = "Rainy"; icon = "🌧️"; }
@@ -200,9 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) { 
             console.error("Greška sa vremenom:", error);
             const tempEl = document.getElementById('temperature');
-            // Ako pukne API, ispiši "--" da ne zbunjuje nula
             if(tempEl) tempEl.innerText = "--°C";
-            
             const descEl = document.getElementById('weather-desc');
             if(descEl) descEl.innerText = "Connection Error";
         }
@@ -215,9 +317,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateWidgets, 1000);
     updateWidgets();
     
-    // Odmah pozovi vreme i osvežavaj na 10 minuta
     getWeather();
     setInterval(getWeather, 600000); 
+
+    // Pokreni Crypto Cene odmah i osvežavaj na 60 sekundi
+    updateCryptoPrices();
+    setInterval(updateCryptoPrices, 60000);
 });
 
 // --- KOPIRANJE ADRESA ---

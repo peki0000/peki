@@ -12,11 +12,11 @@
     <!-- SNEG EFEKAT -->
     <div id="snow-container"></div>
 
-    <!-- WIDGETI (LEVO GORE) -->
-    <div class="widgets-container">
+    <!-- WIDGETI LEVO -->
+    <div class="widgets-container left-widgets">
         
-        <!-- VREME WIDGET -->
-        <div class="widget-box">
+        <!-- VREME WIDGET (Fiksna visina) -->
+        <div class="widget-box no-grow">
             <div class="widget-header">
                 <span id="weather-icon">☁️</span>
                 <span class="widget-label">PANČEVO</span>
@@ -33,8 +33,8 @@
             </div>
         </div>
 
-        <!-- SAT WIDGET -->
-        <div class="widget-box">
+        <!-- SAT WIDGET (Fiksna visina) -->
+        <div class="widget-box no-grow">
             <div class="widget-header">
                 <span class="widget-icon">🕒</span>
                 <span class="widget-label">SERBIA TIME</span>
@@ -47,8 +47,8 @@
             </div>
         </div>
 
-        <!-- KALENDAR WIDGET -->
-        <div class="widget-box calendar-box">
+        <!-- KALENDAR WIDGET (Ovaj se rasteže do dna!) -->
+        <div class="widget-box grow-box">
             <div class="widget-header">
                 <span class="widget-icon">📅</span>
                 <span class="widget-label">CALENDAR</span>
@@ -61,6 +61,97 @@
                 <div class="day-item" data-day="4">Thursday</div>
                 <div class="day-item" data-day="5">Friday</div>
                 <div class="day-item" data-day="6">Saturday</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WIDGETI DESNO -->
+    <div class="widgets-container right-widgets">
+        
+        <!-- MUSIC WIDGET (Fiksna visina) -->
+        <div class="widget-box music-widget no-grow">
+            <div class="widget-header">
+                <span class="widget-icon">🎵</span>
+                <span class="widget-label">MUSIC</span>
+                <span style="margin-left: auto; font-size: 0.7rem; color: #ff5500;">Generacija Zed</span>
+            </div>
+            
+            <div class="music-cover-wrapper">
+                <!-- SLIKA PROMENJENA NA LOKALNU -->
+                <img src="popovska.jpg" id="music-cover" alt="Album Art">
+                <div class="play-overlay" id="widget-play-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="music-info">
+                <h3 class="song-title">KRIPTO</h3>
+                <p class="artist-name">Popovska</p>
+            </div>
+
+            <div class="music-controls">
+                <input type="range" id="music-progress" value="0" min="0" step="0.1">
+                <div class="time-display">
+                    <span id="current-song-time">0:00</span>
+                    <span id="song-duration">--:--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRYPTO PRICES WIDGET (Ovaj se rasteže do dna!) -->
+        <div class="widget-box crypto-prices-box grow-box">
+            <div class="widget-header">
+                <span class="widget-icon">🪙</span>
+                <span class="widget-label">CRYPTO PRICES</span>
+            </div>
+            <div class="crypto-list" id="crypto-list">
+                <!-- Bitcoin -->
+                <div class="crypto-item">
+                    <img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" alt="BTC">
+                    <div class="coin-info">
+                        <span class="coin-name">Bitcoin</span>
+                        <span class="coin-price" id="price-bitcoin">Loading...</span>
+                    </div>
+                    <div class="coin-change" id="change-bitcoin">--%</div>
+                </div>
+                <!-- Ethereum -->
+                <div class="crypto-item">
+                    <img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" alt="ETH">
+                    <div class="coin-info">
+                        <span class="coin-name">Ethereum</span>
+                        <span class="coin-price" id="price-ethereum">Loading...</span>
+                    </div>
+                    <div class="coin-change" id="change-ethereum">--%</div>
+                </div>
+                <!-- Solana -->
+                <div class="crypto-item">
+                    <img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" alt="SOL">
+                    <div class="coin-info">
+                        <span class="coin-name">Solana</span>
+                        <span class="coin-price" id="price-solana">Loading...</span>
+                    </div>
+                    <div class="coin-change" id="change-solana">--%</div>
+                </div>
+                <!-- Litecoin -->
+                <div class="crypto-item">
+                    <img src="https://assets.coingecko.com/coins/images/2/small/litecoin.png" alt="LTC">
+                    <div class="coin-info">
+                        <span class="coin-name">Litecoin</span>
+                        <span class="coin-price" id="price-litecoin">Loading...</span>
+                    </div>
+                    <div class="coin-change" id="change-litecoin">--%</div>
+                </div>
+                <!-- USDC -->
+                <div class="crypto-item">
+                    <img src="https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png" alt="USDC">
+                    <div class="coin-info">
+                        <span class="coin-name">USDC</span>
+                        <span class="coin-price" id="price-usd-coin">Loading...</span>
+                    </div>
+                    <div class="coin-change" id="change-usd-coin">--%</div>
+                </div>
             </div>
         </div>
 
@@ -126,7 +217,7 @@
             </div>
         </div>
 
-        <!-- KONTROLA ZVUKA -->
+        <!-- KONTROLA ZVUKA (GLAVNA) -->
         <div class="volume-controls">
             <svg id="zvucnik" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
