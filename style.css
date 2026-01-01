@@ -1,17 +1,16 @@
 /* =========================================
-   1. OSNOVNA PODEŠAVANJA (FIX ZA TELEFON)
+   1. OSNOVNA PODEŠAVANJA
    ========================================= */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Sprečava skrolovanje */
+    overflow: hidden; 
 }
 
 body {
     background-color: #000;
-    /* Neon Pink i Tamno Plava gradijent */
     background: radial-gradient(circle, #240019 0%, #000000 95%);
     height: 100dvh; 
     display: flex;
@@ -22,18 +21,15 @@ body {
     color: white;
 }
 
-/* =========================================
-   NOVO: SNEG EFEKAT (PAHULJICE)
-   ========================================= */
+/* SNEG */
 #snow-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Da možeš da klikneš kroz sneg */
-    z-index: 1; /* Iza teksta, ali ispred pozadine */
-    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .snowflake {
@@ -50,9 +46,7 @@ body {
     100% { transform: translateY(110vh); }
 }
 
-/* =========================================
-   2. EKRAN ZA KLIK (START)
-   ========================================= */
+/* START EKRAN */
 #start-screen {
     position: fixed;
     top: 0;
@@ -79,9 +73,7 @@ body {
     padding: 20px;
 }
 
-/* =========================================
-   3. GLAVNI SADRŽAJ
-   ========================================= */
+/* GLAVNI SADRŽAJ */
 .content {
     text-align: center;
     opacity: 0;
@@ -91,17 +83,19 @@ body {
     padding: 20px;
     box-sizing: border-box;
     position: relative;
-    z-index: 10; /* Da bude ispred snega */
+    z-index: 10;
+    max-height: 100dvh;
+    overflow-y: auto;
+    scrollbar-width: none; 
 }
+.content::-webkit-scrollbar { display: none; }
 
-/* =========================================
-   4. DISCORD DEO
-   ========================================= */
+/* DISCORD */
 .disk-container {
     position: relative;
-    width: 200px; 
-    height: 200px;
-    margin: 0 auto 15px auto;
+    width: 180px; 
+    height: 180px;
+    margin: 20px auto 15px auto;
 }
 
 #discord-avatar {
@@ -111,30 +105,25 @@ body {
     object-fit: cover;
     border: 5px solid #333;
     box-shadow: 0 0 40px rgba(0,0,0,0.8);
-    transition: all 0.5s ease;
 }
 
 #status-indicator {
     position: absolute;
     bottom: 15px;
     right: 15px;
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     background-color: #333;
     border: 4px solid #000;
 }
 
-/* =========================================
-   5. IME, GLITCH I STATUS
-   ========================================= */
-.discord-info {
-    margin-bottom: 25px;
-}
+/* INFO */
+.discord-info { margin-bottom: 20px; }
 
 #discord-username {
     margin: 0;
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: #00ffff;
     text-transform: uppercase;
     text-shadow: 0 0 15px #00ffff;
@@ -142,13 +131,8 @@ body {
     font-weight: 900;
 }
 
-/* --- GLITCH EFEKAT "DEVELOPER" --- */
-.role-wrapper {
-    margin: 5px 0 15px 0;
-    display: flex;
-    justify-content: center;
-}
-
+/* GLITCH */
+.role-wrapper { margin: 5px 0 15px 0; display: flex; justify-content: center; }
 .glitch {
     position: relative;
     font-size: 1.5rem;
@@ -159,160 +143,154 @@ body {
     text-transform: uppercase;
     animation: glitch-skew 1s infinite linear alternate-reverse;
 }
-
 .glitch::before {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    text-shadow: -2px 0 #ff0055;
-    overflow: hidden;
-    top: 0;
+    content: attr(data-text); position: absolute; left: 0;
+    text-shadow: -2px 0 #ff0055; overflow: hidden; top: 0;
     animation: glitch-anim-1 2s infinite linear alternate-reverse;
 }
-
 .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    text-shadow: -2px 0 #00ffff;
-    overflow: hidden;
-    top: 0;
+    content: attr(data-text); position: absolute; left: 0;
+    text-shadow: -2px 0 #00ffff; overflow: hidden; top: 0;
     animation: glitch-anim-2 3s infinite linear alternate-reverse;
 }
 
-@keyframes glitch-anim-1 {
-    0% { clip-path: inset(20% 0 80% 0); }
-    20% { clip-path: inset(60% 0 1% 0); }
-    40% { clip-path: inset(40% 0 50% 0); }
-    60% { clip-path: inset(80% 0 5% 0); }
-    80% { clip-path: inset(10% 0 70% 0); }
-    100% { clip-path: inset(30% 0 20% 0); }
-}
-
-@keyframes glitch-anim-2 {
-    0% { clip-path: inset(10% 0 60% 0); }
-    20% { clip-path: inset(30% 0 10% 0); }
-    40% { clip-path: inset(70% 0 20% 0); }
-    60% { clip-path: inset(20% 0 50% 0); }
-    80% { clip-path: inset(50% 0 30% 0); }
-    100% { clip-path: inset(5% 0 80% 0); }
-}
-
-@keyframes glitch-skew {
-    0% { transform: skew(0deg); }
-    20% { transform: skew(-2deg); }
-    40% { transform: skew(2deg); }
-    60% { transform: skew(0deg); }
-    80% { transform: skew(1deg); }
-    100% { transform: skew(0deg); }
-}
+@keyframes glitch-anim-1 { 0% { clip-path: inset(20% 0 80% 0); } 100% { clip-path: inset(30% 0 20% 0); } }
+@keyframes glitch-anim-2 { 0% { clip-path: inset(10% 0 60% 0); } 100% { clip-path: inset(5% 0 80% 0); } }
+@keyframes glitch-skew { 0% { transform: skew(0deg); } 100% { transform: skew(0deg); } }
 
 #discord-status-text {
-    margin: 5px 0 0 0;
+    margin: 0;
     font-size: 0.9rem;
     color: #ddd;
-    font-family: 'Courier New', monospace;
     background: rgba(255, 255, 255, 0.1);
-    padding: 8px 15px;
+    padding: 5px 15px;
     border-radius: 10px;
     display: inline-block;
-    max-width: 90%;
     border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* =========================================
-   6. SKILLS (IKONICE)
-   ========================================= */
+/* SKILLS */
 .skills {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 20px;
-    margin-bottom: 30px;
-    font-size: 2.8rem;
+    margin-bottom: 25px;
+    font-size: 2.5rem;
 }
-
-.skills i {
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
+.skills i { transition: all 0.3s ease; cursor: pointer; }
 .devicon-cplusplus-plain { color: #00599C; filter: drop-shadow(0 0 5px rgba(0, 89, 156, 0.6)); }
 .devicon-python-plain { color: #FFD43B; filter: drop-shadow(0 0 5px rgba(255, 212, 59, 0.6)); }
 .devicon-html5-plain { color: #E34F26; filter: drop-shadow(0 0 5px rgba(227, 79, 38, 0.6)); }
 .devicon-css3-plain { color: #1572B6; filter: drop-shadow(0 0 5px rgba(21, 114, 182, 0.6)); }
 .devicon-javascript-plain { color: #F7DF1E; filter: drop-shadow(0 0 5px rgba(247, 223, 30, 0.6)); }
-
 .skills i:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px currentColor); }
 
-/* =========================================
-   7. KONTROLA ZVUKA
-   ========================================= */
+/* --- DONACIJE DIZAJN (SA NOVIM IKONAMA) --- */
+.donations-wrapper {
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.crypto-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.crypto-btn {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #555;
+    padding: 10px;
+    border-radius: 12px; /* Malo zaobljenije */
+    cursor: pointer;
+    width: 70px;
+    height: 70px;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* SVG IKONICE */
+.crypto-icon {
+    width: 32px; /* Malo veće za bolju vidljivost */
+    height: 32px;
+    margin-bottom: 5px;
+    transition: transform 0.2s;
+}
+
+.crypto-status {
+    font-size: 0.65rem;
+    color: #ccc;
+    font-weight: bold;
+}
+
+/* BOJE */
+.btc { border-color: #f2a900; box-shadow: 0 0 5px rgba(242, 169, 0, 0.2); }
+.btc .crypto-icon { color: #f2a900; }
+
+.eth { border-color: #627eea; box-shadow: 0 0 5px rgba(98, 126, 234, 0.2); }
+.eth .crypto-icon { color: #627eea; }
+
+.ltc { border-color: #345d9d; box-shadow: 0 0 5px rgba(52, 93, 157, 0.2); }
+.ltc .crypto-icon { color: #345d9d; }
+
+/* Hover efekat */
+.crypto-btn:hover { transform: translateY(-3px); }
+.crypto-btn:hover .crypto-icon { transform: scale(1.1); }
+.btc:hover { box-shadow: 0 0 15px #f2a900; background: rgba(242, 169, 0, 0.1); }
+.eth:hover { box-shadow: 0 0 15px #627eea; background: rgba(98, 126, 234, 0.1); }
+.ltc:hover { box-shadow: 0 0 15px #345d9d; background: rgba(52, 93, 157, 0.1); }
+
+/* Success efekat (Kad se kopira) */
+.copied-success {
+    border-color: #00ff00 !important;
+    box-shadow: 0 0 20px #00ff00 !important;
+    background: rgba(0, 255, 0, 0.1) !important;
+}
+
+/* ZVUK */
 .volume-controls {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
-    margin-top: 10px;
+    margin-bottom: 20px;
     width: 100%;
 }
-
 .volume-controls svg {
-    color: #ffffff;
-    filter: drop-shadow(0 0 5px #ffffff);
-    width: 28px;
-    height: 28px;
-    transition: opacity 0.2s;
-    min-width: 28px;
+    color: #ffffff; filter: drop-shadow(0 0 5px #ffffff);
+    width: 28px; height: 28px; transition: opacity 0.2s; min-width: 28px;
 }
-
-.volume-controls svg:hover {
-    transform: scale(1.1);
-}
-
 #volume-slider {
-    -webkit-appearance: none;
-    width: 100%;
-    max-width: 200px;
-    height: 6px;
-    background: #333;
-    border-radius: 5px;
-    outline: none;
+    -webkit-appearance: none; width: 100%; max-width: 200px; height: 6px;
+    background: #333; border-radius: 5px; outline: none;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
-
 #volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #ff0055;
-    cursor: pointer;
-    box-shadow: 0 0 10px #ff0055;
+    -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+    background: #ff0055; cursor: pointer; box-shadow: 0 0 10px #ff0055;
 }
 
-/* =========================================
-   8. STATUS KLASE I ANIMACIJE
-   ========================================= */
+/* ANIMACIJE I STATUSI */
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-.online-border { border-color: #43b581 !important; box-shadow: 0 0 40px #43b581 !important; }
-.idle-border { border-color: #faa61a !important; box-shadow: 0 0 40px #faa61a !important; }
-.dnd-border { border-color: #f04747 !important; box-shadow: 0 0 40px #f04747 !important; }
+.online-border { border-color: #43b581 !important; box-shadow: 0 0 30px #43b581 !important; }
+.idle-border { border-color: #faa61a !important; box-shadow: 0 0 30px #faa61a !important; }
+.dnd-border { border-color: #f04747 !important; box-shadow: 0 0 30px #f04747 !important; }
 .offline-border { border-color: #747f8d !important; filter: grayscale(100%); }
-
 .online-bg { background-color: #43b581 !important; }
 .idle-bg { background-color: #faa61a !important; }
 .dnd-bg { background-color: #f04747 !important; }
 .offline-bg { background-color: #747f8d !important; }
 
-/* =========================================
-   9. MOBILNI PRIKAZ
-   ========================================= */
+/* MOBILNI */
 @media (max-width: 400px) {
-    .disk-container { width: 160px; height: 160px; margin-bottom: 10px; }
-    #discord-username { font-size: 1.6rem; }
+    .disk-container { width: 150px; height: 150px; }
+    #discord-username { font-size: 1.5rem; }
     .glitch { font-size: 1.2rem; }
-    .skills { font-size: 2.2rem; gap: 15px; }
-    #start-text { font-size: 1.5rem; }
+    .skills { font-size: 2rem; gap: 15px; }
+    .crypto-btn { width: 60px; height: 60px; padding: 5px; }
+    .crypto-icon { width: 24px; height: 24px; }
 }
