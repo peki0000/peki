@@ -1,0 +1,318 @@
+/* =========================================
+   1. OSNOVNA PODEŠAVANJA (FIX ZA TELEFON)
+   ========================================= */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Sprečava skrolovanje */
+}
+
+body {
+    background-color: #000;
+    /* Neon Pink i Tamno Plava gradijent */
+    background: radial-gradient(circle, #240019 0%, #000000 95%);
+    height: 100dvh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Verdana', sans-serif;
+    color: white;
+}
+
+/* =========================================
+   NOVO: SNEG EFEKAT (PAHULJICE)
+   ========================================= */
+#snow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Da možeš da klikneš kroz sneg */
+    z-index: 1; /* Iza teksta, ali ispred pozadine */
+    overflow: hidden;
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    background-color: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10px); }
+    100% { transform: translateY(110vh); }
+}
+
+/* =========================================
+   2. EKRAN ZA KLIK (START)
+   ========================================= */
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background: rgba(0, 0, 0, 0.98);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: opacity 0.8s ease;
+}
+
+#start-text {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 5px;
+    color: #ff0055;
+    text-shadow: 0 0 15px #ff0055;
+    animation: blink 1s infinite;
+    text-align: center;
+    padding: 20px;
+}
+
+/* =========================================
+   3. GLAVNI SADRŽAJ
+   ========================================= */
+.content {
+    text-align: center;
+    opacity: 0;
+    transition: opacity 2s ease;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10; /* Da bude ispred snega */
+}
+
+/* =========================================
+   4. DISCORD DEO
+   ========================================= */
+.disk-container {
+    position: relative;
+    width: 200px; 
+    height: 200px;
+    margin: 0 auto 15px auto;
+}
+
+#discord-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #333;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    transition: all 0.5s ease;
+}
+
+#status-indicator {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #333;
+    border: 4px solid #000;
+}
+
+/* =========================================
+   5. IME, GLITCH I STATUS
+   ========================================= */
+.discord-info {
+    margin-bottom: 25px;
+}
+
+#discord-username {
+    margin: 0;
+    font-size: 2rem;
+    color: #00ffff;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px #00ffff;
+    letter-spacing: 2px;
+    font-weight: 900;
+}
+
+/* --- GLITCH EFEKAT "DEVELOPER" --- */
+.role-wrapper {
+    margin: 5px 0 15px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.glitch {
+    position: relative;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    animation: glitch-skew 1s infinite linear alternate-reverse;
+}
+
+.glitch::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    text-shadow: -2px 0 #ff0055;
+    overflow: hidden;
+    top: 0;
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    text-shadow: -2px 0 #00ffff;
+    overflow: hidden;
+    top: 0;
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 80% 0); }
+    20% { clip-path: inset(60% 0 1% 0); }
+    40% { clip-path: inset(40% 0 50% 0); }
+    60% { clip-path: inset(80% 0 5% 0); }
+    80% { clip-path: inset(10% 0 70% 0); }
+    100% { clip-path: inset(30% 0 20% 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip-path: inset(10% 0 60% 0); }
+    20% { clip-path: inset(30% 0 10% 0); }
+    40% { clip-path: inset(70% 0 20% 0); }
+    60% { clip-path: inset(20% 0 50% 0); }
+    80% { clip-path: inset(50% 0 30% 0); }
+    100% { clip-path: inset(5% 0 80% 0); }
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(-2deg); }
+    40% { transform: skew(2deg); }
+    60% { transform: skew(0deg); }
+    80% { transform: skew(1deg); }
+    100% { transform: skew(0deg); }
+}
+
+#discord-status-text {
+    margin: 5px 0 0 0;
+    font-size: 0.9rem;
+    color: #ddd;
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 15px;
+    border-radius: 10px;
+    display: inline-block;
+    max-width: 90%;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* =========================================
+   6. SKILLS (IKONICE)
+   ========================================= */
+.skills {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+    font-size: 2.8rem;
+}
+
+.skills i {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.devicon-cplusplus-plain { color: #00599C; filter: drop-shadow(0 0 5px rgba(0, 89, 156, 0.6)); }
+.devicon-python-plain { color: #FFD43B; filter: drop-shadow(0 0 5px rgba(255, 212, 59, 0.6)); }
+.devicon-html5-plain { color: #E34F26; filter: drop-shadow(0 0 5px rgba(227, 79, 38, 0.6)); }
+.devicon-css3-plain { color: #1572B6; filter: drop-shadow(0 0 5px rgba(21, 114, 182, 0.6)); }
+.devicon-javascript-plain { color: #F7DF1E; filter: drop-shadow(0 0 5px rgba(247, 223, 30, 0.6)); }
+
+.skills i:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px currentColor); }
+
+/* =========================================
+   7. KONTROLA ZVUKA
+   ========================================= */
+.volume-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.volume-controls svg {
+    color: #ffffff;
+    filter: drop-shadow(0 0 5px #ffffff);
+    width: 28px;
+    height: 28px;
+    transition: opacity 0.2s;
+    min-width: 28px;
+}
+
+.volume-controls svg:hover {
+    transform: scale(1.1);
+}
+
+#volume-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    max-width: 200px;
+    height: 6px;
+    background: #333;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ff0055;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff0055;
+}
+
+/* =========================================
+   8. STATUS KLASE I ANIMACIJE
+   ========================================= */
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.online-border { border-color: #43b581 !important; box-shadow: 0 0 40px #43b581 !important; }
+.idle-border { border-color: #faa61a !important; box-shadow: 0 0 40px #faa61a !important; }
+.dnd-border { border-color: #f04747 !important; box-shadow: 0 0 40px #f04747 !important; }
+.offline-border { border-color: #747f8d !important; filter: grayscale(100%); }
+
+.online-bg { background-color: #43b581 !important; }
+.idle-bg { background-color: #faa61a !important; }
+.dnd-bg { background-color: #f04747 !important; }
+.offline-bg { background-color: #747f8d !important; }
+
+/* =========================================
+   9. MOBILNI PRIKAZ
+   ========================================= */
+@media (max-width: 400px) {
+    .disk-container { width: 160px; height: 160px; margin-bottom: 10px; }
+    #discord-username { font-size: 1.6rem; }
+    .glitch { font-size: 1.2rem; }
+    .skills { font-size: 2.2rem; gap: 15px; }
+    #start-text { font-size: 1.5rem; }
+}
