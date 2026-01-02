@@ -42,29 +42,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     createSnow();
 
-    // POSTAVKA ZVUKA
+    // POSTAVKA ZVUKA (Inicijalno)
     if(audio && volumeSlider) {
         audio.volume = parseFloat(volumeSlider.value);
     }
 
     // --- 1. KLIK NA EKRAN (POČETAK) ---
     if(startScreen) {
-        startScreen.addEventListener('click', () => {
+        // Dodajemo i 'touchstart' za brži odziv na telefonima
+        const startEvent = (e) => {
+            // Sprečavamo double-tap probleme
+            e.preventDefault(); 
             startScreen.style.opacity = '0';
             setTimeout(() => { startScreen.style.display = 'none'; }, 800);
             if(mainContent) mainContent.style.opacity = '1';
             
-            // Pokreni pesmu i ažuriraj ikonicu na widgetu
+            // Pokreni pesmu
             if(audio) {
                 audio.play().then(() => {
                     updatePlayIcon(true);
                 }).catch(err => console.log("Audio autoplay block:", err));
             }
+        };
+
+        startScreen.addEventListener('click', () => {
+             startScreen.style.opacity = '0';
+            setTimeout(() => { startScreen.style.display = 'none'; }, 800);
+            if(mainContent) mainContent.style.opacity = '1';
+            if(audio) {
+                audio.play().then(() => {
+                    updatePlayIcon(true);
+                }).catch(err => console.log("Autoplay:", err));
+            }
         });
+        // startScreen.addEventListener('touchstart', startEvent, {passive: false});
     }
 
     // --- 2. LOGIKA ZA MUZIČKI WIDGET ---
-    
     function updatePlayIcon(isPlaying) {
         if(!widgetPlayBtn) return;
         const svgPath = widgetPlayBtn.querySelector('path');
@@ -96,8 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if(audio) {
         audio.addEventListener('timeupdate', () => {
             if(musicProgress) {
-                musicProgress.value = audio.currentTime;
-                // Provera da li je trajanje dostupno (nije NaN)
+                // Ako korisnik ne vuče slajder trenutno, ažuriraj ga
+                if(document.activeElement !== musicProgress) {
+                    musicProgress.value = audio.currentTime;
+                }
+                
                 if(!isNaN(audio.duration)) {
                     musicProgress.max = audio.duration;
                     if(songDuration) songDuration.innerText = formatTime(audio.duration);
@@ -106,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if(currentSongTime) currentSongTime.innerText = formatTime(audio.currentTime);
         });
 
-        // Da bi trajanje bilo dostupno odmah, ponekad treba 'loadedmetadata'
         audio.addEventListener('loadedmetadata', () => {
             if(musicProgress) musicProgress.max = audio.duration;
             if(songDuration) songDuration.innerText = formatTime(audio.duration);
@@ -116,17 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
             musicProgress.addEventListener('input', () => {
                 audio.currentTime = musicProgress.value;
             });
+            // Dodatna podrška za touch na progress baru
+            musicProgress.addEventListener('change', () => {
+                audio.currentTime = musicProgress.value;
+            });
         }
     }
 
     // --- 3. CRYPTO PRICES LOGIKA ---
     async function updateCryptoPrices() {
         try {
-            // CoinGecko API za BTC, ETH, SOL, LTC, USDC
             const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,litecoin,usd-coin&vs_currencies=usd&include_24hr_change=true');
             const data = await response.json();
 
-            // Pomoćna funkcija za ažuriranje svakog coina
             const updateCoin = (id, jsonId) => {
                 const priceEl = document.getElementById(`price-${id}`);
                 const changeEl = document.getElementById(`change-${id}`);
@@ -134,15 +152,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data[jsonId]) {
                     const price = data[jsonId].usd;
                     const change = data[jsonId].usd_24h_change.toFixed(2);
-                    
-                    // Formatiranje cene (dodavanje zareza)
                     const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
                     
                     if(priceEl) priceEl.innerText = formattedPrice;
                     
                     if(changeEl) {
                         changeEl.innerText = (change > 0 ? '+' : '') + change + '%';
-                        changeEl.className = 'coin-change'; // Reset klasa
+                        changeEl.className = 'coin-change'; 
                         changeEl.classList.add(change >= 0 ? 'change-positive' : 'change-negative');
                     }
                 }
@@ -159,11 +175,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 4. GLAVNA KONTROLA ZVUKA ---
+    // --- 4. GLAVNA KONTROLA ZVUKA (POBOLJŠANO ZA MOBILNI) ---
     if(zvucnikDugme) {
         zvucnikDugme.addEventListener('click', () => {
-            if (audio.muted) {
+            if (audio.muted || audio.volume === 0) {
                 audio.muted = false;
+                // Vratimo na pola ako je bio na nuli
+                if(audio.volume === 0) {
+                    audio.volume = 0.5;
+                    if(volumeSlider) volumeSlider.value = 0.5;
+                }
                 zvucnikDugme.style.opacity = "1";
             } else {
                 audio.muted = true;
@@ -173,14 +194,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if(volumeSlider) {
-        volumeSlider.addEventListener('input', () => {
+        // Funkcija za promenu zvuka
+        const changeVolume = () => {
             const val = parseFloat(volumeSlider.value);
-            if(audio) audio.volume = val;
-            if(audio.muted) {
+            // iOS ne dozvoljava audio.volume, ali probamo za Android
+            audio.volume = val; 
+            
+            // Ako korisnik pojača preko slajdera, unmute-uj
+            if(val > 0 && audio.muted) {
                 audio.muted = false;
                 if(zvucnikDugme) zvucnikDugme.style.opacity = "1";
             }
-        });
+            // Ako smanji skroz, visualno ga mutuj
+            if(val === 0) {
+                if(zvucnikDugme) zvucnikDugme.style.opacity = "0.3";
+            }
+        };
+
+        // Koristimo 'input' (live) i 'change' (kraj) za bolju podršku
+        volumeSlider.addEventListener('input', changeVolume);
+        volumeSlider.addEventListener('change', changeVolume);
+        
+        // Mobile touch fix
+        volumeSlider.addEventListener('touchmove', (e) => {
+            // Ovo osigurava da slajder radi glatko na nekim Androidima
+            e.stopPropagation(); 
+        }, {passive: true});
     }
 
     // --- 5. DISCORD STATUS ---
@@ -320,7 +359,6 @@ document.addEventListener('DOMContentLoaded', () => {
     getWeather();
     setInterval(getWeather, 600000); 
 
-    // Pokreni Crypto Cene odmah i osvežavaj na 60 sekundi
     updateCryptoPrices();
     setInterval(updateCryptoPrices, 60000);
 });
