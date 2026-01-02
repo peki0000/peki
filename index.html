@@ -47,20 +47,21 @@
             </div>
         </div>
 
-        <!-- KALENDAR WIDGET (Ovaj se rasteže do dna!) -->
+        <!-- KALENDAR WIDGET (Sada počinje od Ponedeljka) -->
         <div class="widget-box grow-box">
             <div class="widget-header">
                 <span class="widget-icon">📅</span>
                 <span class="widget-label">CALENDAR</span>
             </div>
             <div class="calendar-list">
-                <div class="day-item" data-day="0">Sunday</div>
+                <!-- Redosled promenjen: Ponedeljak prvi, Nedelja zadnja -->
                 <div class="day-item" data-day="1">Monday</div>
                 <div class="day-item" data-day="2">Tuesday</div>
                 <div class="day-item" data-day="3">Wednesday</div>
                 <div class="day-item" data-day="4">Thursday</div>
                 <div class="day-item" data-day="5">Friday</div>
                 <div class="day-item" data-day="6">Saturday</div>
+                <div class="day-item" data-day="0">Sunday</div>
             </div>
         </div>
     </div>
@@ -77,8 +78,8 @@
             </div>
             
             <div class="music-cover-wrapper">
-                <!-- SLIKA PROMENJENA NA LOKALNU -->
                 <img src="popovska.jpg" id="music-cover" alt="Album Art">
+                <!-- Znak je tu u kodu, ali je sakriven preko CSS-a -->
                 <div class="play-overlay" id="widget-play-btn">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
                         <path d="M8 5v14l11-7z"/>
@@ -217,7 +218,7 @@
             </div>
         </div>
 
-        <!-- KONTROLA ZVUKA (GLAVNA) -->
+        <!-- KONTROLA ZVUKA -->
         <div class="volume-controls">
             <svg id="zvucnik" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
