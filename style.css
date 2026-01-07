@@ -1,6 +1,3 @@
-/* =========================================
-   1. OSNOVNA PODEŠAVANJA
-   ========================================= */
 html, body {
     margin: 0;
     padding: 0;
@@ -21,7 +18,6 @@ body {
     color: white;
 }
 
-/* SNEG */
 #snow-container {
     position: fixed;
     top: 0;
@@ -46,11 +42,10 @@ body {
     100% { transform: translateY(110vh); }
 }
 
-/* --- WIDGETI KONTEJNERI (RASTEZLJIVI) --- */
 .widgets-container {
     position: fixed;
     top: 20px;
-    bottom: 20px; /* Idu skroz do dna ekrana */
+    bottom: 20px; 
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -66,7 +61,6 @@ body {
     right: 20px;
 }
 
-/* Osnovni izgled box-a */
 .widget-box {
     background-color: rgba(10, 10, 10, 0.95);
     border: 1px solid #333;
@@ -81,12 +75,10 @@ body {
     flex-direction: column;
 }
 
-/* Widgeti koji se NE rastežu */
 .no-grow {
     flex-shrink: 0;
 }
 
-/* Widgeti koji se RASTEŽU do dna (Kalendar, Kripto) */
 .grow-box {
     flex-grow: 1; 
 }
@@ -123,7 +115,6 @@ body {
 #weather-desc, #current-date { font-size: 0.8rem; color: #aaa; }
 .detail-item { font-size: 0.8rem; color: #888; margin-top: 5px; }
 
-/* KALENDAR DIZAJN (Rastegljiv) */
 .calendar-list {
     display: flex;
     flex-direction: column;
@@ -159,7 +150,6 @@ body {
     box-shadow: 0 0 8px #FFD43B;
 }
 
-/* --- MUZIČKI WIDGET STIL --- */
 .music-widget {
     width: 280px; 
     border: 1px solid #444;
@@ -183,17 +173,14 @@ body {
     transition: opacity 0.3s;
 }
 
-/* --- PLAY OVERLAY SAKRIVEN --- */
 .play-overlay {
     display: none !important; 
-    /* Ako ikad hoćeš da vratiš, obriši ovo iznad i vrati stare stilove */
 }
 
 .music-info { margin-bottom: 10px; flex-shrink: 0; }
 .song-title { margin: 0; font-size: 1.2rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
 .artist-name { margin: 0; font-size: 0.9rem; color: #ff9900; font-weight: bold; }
 
-/* Progress bar za pesmu */
 .music-controls input[type=range] {
     width: 100%;
     height: 5px;
@@ -217,7 +204,6 @@ body {
     color: #aaa;
 }
 
-/* --- CRYPTO PRICES WIDGET STIL (VEĆI I RASTEGLJIV) --- */
 .crypto-prices-box {
     width: 280px; 
     border: 1px solid #444;
@@ -243,7 +229,6 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: background 0.2s;
     
-    /* OVO RASTEŽE SVAKI ITEM DA POPUNI PRAZNINU */
     flex: 1; 
 }
 
@@ -252,7 +237,7 @@ body {
 }
 
 .crypto-item img {
-    width: 32px; /* Veće ikonice */
+    width: 32px; 
     height: 32px;
     margin-right: 12px;
 }
@@ -265,19 +250,19 @@ body {
 }
 
 .coin-name {
-    font-size: 0.9rem; /* Veći font */
+    font-size: 0.9rem; 
     font-weight: bold;
     color: #eee;
 }
 
 .coin-price {
-    font-size: 0.85rem; /* Veći font */
+    font-size: 0.85rem; 
     color: #ccc;
     margin-top: 3px;
 }
 
 .coin-change {
-    font-size: 0.8rem; /* Veći font */
+    font-size: 0.8rem; 
     font-weight: bold;
     padding: 5px 8px;
     border-radius: 6px;
@@ -296,12 +281,10 @@ body {
 }
 
 
-/* SAKRIJ NA MOBILNOM */
 @media (max-width: 800px) {
     .widgets-container { display: none; }
 }
 
-/* START EKRAN */
 #start-screen {
     position: fixed;
     top: 0;
@@ -328,7 +311,6 @@ body {
     padding: 20px;
 }
 
-/* GLAVNI SADRŽAJ */
 .content {
     text-align: center;
     opacity: 0;
@@ -345,7 +327,6 @@ body {
 }
 .content::-webkit-scrollbar { display: none; }
 
-/* DISCORD */
 .disk-container {
     position: relative;
     width: 180px; 
@@ -373,7 +354,6 @@ body {
     border: 4px solid #000;
 }
 
-/* INFO */
 .discord-info { margin-bottom: 20px; }
 
 #discord-username {
@@ -386,7 +366,6 @@ body {
     font-weight: 900;
 }
 
-/* GLITCH */
 .role-wrapper { margin: 5px 0 15px 0; display: flex; justify-content: center; }
 .glitch {
     position: relative;
@@ -424,7 +403,6 @@ body {
     border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* SKILLS */
 .skills {
     display: flex;
     justify-content: center;
@@ -441,7 +419,6 @@ body {
 .devicon-javascript-plain { color: #F7DF1E; filter: drop-shadow(0 0 5px rgba(247, 223, 30, 0.6)); }
 .skills i:hover { transform: scale(1.2); filter: drop-shadow(0 0 15px currentColor); }
 
-/* DONACIJE */
 .donations-wrapper { margin-bottom: 25px; width: 100%; }
 .crypto-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
 .crypto-btn {
@@ -465,13 +442,11 @@ body {
 .copied-success { border-color: #00E676 !important; box-shadow: 0 0 25px rgba(0, 230, 118, 0.4) !important; background: rgba(0, 230, 118, 0.1) !important; }
 .copied-success .crypto-status { color: #00E676 !important; } .copied-success .crypto-icon { color: #00E676 !important; }
 
-/* ZVUK */
 .volume-controls { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; width: 100%; }
 .volume-controls svg { color: #ffffff; filter: drop-shadow(0 0 5px #ffffff); width: 28px; height: 28px; transition: opacity 0.2s; min-width: 28px; }
 #volume-slider { -webkit-appearance: none; width: 100%; max-width: 200px; height: 6px; background: #333; border-radius: 5px; outline: none; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
 #volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #ff0055; cursor: pointer; box-shadow: 0 0 10px #ff0055; }
 
-/* ANIMACIJE */
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 .online-border { border-color: #43b581 !important; box-shadow: 0 0 30px #43b581 !important; }
 .idle-border { border-color: #faa61a !important; box-shadow: 0 0 30px #faa61a !important; }
@@ -482,7 +457,6 @@ body {
 .dnd-bg { background-color: #f04747 !important; }
 .offline-bg { background-color: #747f8d !important; }
 
-/* MOBILNI */
 @media (max-width: 400px) {
     .disk-container { width: 150px; height: 150px; }
     #discord-username { font-size: 1.5rem; }

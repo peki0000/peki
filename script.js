@@ -1,4 +1,3 @@
-// TVOJ DISCORD ID
 const DISCORD_ID = "592669287743881217"; 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeSlider = document.getElementById('volume-slider');
     const zvucnikDugme = document.getElementById('zvucnik');
 
-    // Elementi za Muzički Widget
     const widgetPlayBtn = document.getElementById('widget-play-btn');
     const musicProgress = document.getElementById('music-progress');
     const currentSongTime = document.getElementById('current-song-time');
@@ -21,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const usernameText = document.getElementById('discord-username');
     const statusText = document.getElementById('discord-status-text');
 
-    // --- SNEG EFEKAT ---
     function createSnow() {
         const snowContainer = document.getElementById('snow-container');
         if(!snowContainer) return; 
@@ -42,22 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     createSnow();
 
-    // POSTAVKA ZVUKA (Inicijalno)
     if(audio && volumeSlider) {
         audio.volume = parseFloat(volumeSlider.value);
     }
 
-    // --- 1. KLIK NA EKRAN (POČETAK) ---
     if(startScreen) {
-        // Dodajemo i 'touchstart' za brži odziv na telefonima
         const startEvent = (e) => {
-            // Sprečavamo double-tap probleme
             e.preventDefault(); 
             startScreen.style.opacity = '0';
             setTimeout(() => { startScreen.style.display = 'none'; }, 800);
             if(mainContent) mainContent.style.opacity = '1';
             
-            // Pokreni pesmu
             if(audio) {
                 audio.play().then(() => {
                     updatePlayIcon(true);
@@ -75,10 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).catch(err => console.log("Autoplay:", err));
             }
         });
-        // startScreen.addEventListener('touchstart', startEvent, {passive: false});
     }
 
-    // --- 2. LOGIKA ZA MUZIČKI WIDGET ---
     function updatePlayIcon(isPlaying) {
         if(!widgetPlayBtn) return;
         const svgPath = widgetPlayBtn.querySelector('path');
@@ -110,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(audio) {
         audio.addEventListener('timeupdate', () => {
             if(musicProgress) {
-                // Ako korisnik ne vuče slajder trenutno, ažuriraj ga
                 if(document.activeElement !== musicProgress) {
                     musicProgress.value = audio.currentTime;
                 }
@@ -132,14 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
             musicProgress.addEventListener('input', () => {
                 audio.currentTime = musicProgress.value;
             });
-            // Dodatna podrška za touch na progress baru
             musicProgress.addEventListener('change', () => {
                 audio.currentTime = musicProgress.value;
             });
         }
     }
 
-    // --- 3. CRYPTO PRICES LOGIKA ---
     async function updateCryptoPrices() {
         try {
             const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,litecoin,usd-coin&vs_currencies=usd&include_24hr_change=true');
@@ -175,12 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 4. GLAVNA KONTROLA ZVUKA (POBOLJŠANO ZA MOBILNI) ---
     if(zvucnikDugme) {
         zvucnikDugme.addEventListener('click', () => {
             if (audio.muted || audio.volume === 0) {
                 audio.muted = false;
-                // Vratimo na pola ako je bio na nuli
                 if(audio.volume === 0) {
                     audio.volume = 0.5;
                     if(volumeSlider) volumeSlider.value = 0.5;
@@ -194,35 +179,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if(volumeSlider) {
-        // Funkcija za promenu zvuka
         const changeVolume = () => {
             const val = parseFloat(volumeSlider.value);
-            // iOS ne dozvoljava audio.volume, ali probamo za Android
             audio.volume = val; 
             
-            // Ako korisnik pojača preko slajdera, unmute-uj
             if(val > 0 && audio.muted) {
                 audio.muted = false;
                 if(zvucnikDugme) zvucnikDugme.style.opacity = "1";
             }
-            // Ako smanji skroz, visualno ga mutuj
             if(val === 0) {
                 if(zvucnikDugme) zvucnikDugme.style.opacity = "0.3";
             }
         };
 
-        // Koristimo 'input' (live) i 'change' (kraj) za bolju podršku
         volumeSlider.addEventListener('input', changeVolume);
         volumeSlider.addEventListener('change', changeVolume);
         
-        // Mobile touch fix
         volumeSlider.addEventListener('touchmove', (e) => {
-            // Ovo osigurava da slajder radi glatko na nekim Androidima
             e.stopPropagation(); 
         }, {passive: true});
     }
 
-    // --- 5. DISCORD STATUS ---
     async function updateDiscordStatus() {
         try {
             const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
@@ -282,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 6. WIDGETI: VREME I SAT ---
     function updateWidgets() {
         const timeElement = document.getElementById('current-time');
         const dateElement = document.getElementById('current-date');
@@ -304,7 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 7. VREME (API) ---
     async function getWeather() {
         try {
             const cacheBuster = new Date().getTime();
@@ -349,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // POKRETANJE SVEGA
     updateDiscordStatus();
     setInterval(updateDiscordStatus, 5000);
 
@@ -363,7 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateCryptoPrices, 60000);
 });
 
-// --- KOPIRANJE ADRESA ---
 window.copyCrypto = function(address, element) {
     navigator.clipboard.writeText(address).then(() => {
         const statusSpan = element.querySelector('.crypto-status');

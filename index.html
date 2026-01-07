@@ -9,13 +9,10 @@
 </head>
 <body>
 
-    <!-- SNEG EFEKAT -->
     <div id="snow-container"></div>
 
-    <!-- WIDGETI LEVO -->
     <div class="widgets-container left-widgets">
         
-        <!-- VREME WIDGET (Fiksna visina) -->
         <div class="widget-box no-grow">
             <div class="widget-header">
                 <span id="weather-icon">☁️</span>
@@ -33,7 +30,6 @@
             </div>
         </div>
 
-        <!-- SAT WIDGET (Fiksna visina) -->
         <div class="widget-box no-grow">
             <div class="widget-header">
                 <span class="widget-icon">🕒</span>
@@ -47,14 +43,12 @@
             </div>
         </div>
 
-        <!-- KALENDAR WIDGET (Sada počinje od Ponedeljka) -->
         <div class="widget-box grow-box">
             <div class="widget-header">
                 <span class="widget-icon">📅</span>
                 <span class="widget-label">CALENDAR</span>
             </div>
             <div class="calendar-list">
-                <!-- Redosled promenjen: Ponedeljak prvi, Nedelja zadnja -->
                 <div class="day-item" data-day="1">Monday</div>
                 <div class="day-item" data-day="2">Tuesday</div>
                 <div class="day-item" data-day="3">Wednesday</div>
@@ -66,10 +60,8 @@
         </div>
     </div>
 
-    <!-- WIDGETI DESNO -->
     <div class="widgets-container right-widgets">
         
-        <!-- MUSIC WIDGET (Fiksna visina) -->
         <div class="widget-box music-widget no-grow">
             <div class="widget-header">
                 <span class="widget-icon">🎵</span>
@@ -101,14 +93,12 @@
             </div>
         </div>
 
-        <!-- CRYPTO PRICES WIDGET (Ovaj se rasteže do dna!) -->
         <div class="widget-box crypto-prices-box grow-box">
             <div class="widget-header">
                 <span class="widget-icon">🪙</span>
                 <span class="widget-label">CRYPTO PRICES</span>
             </div>
             <div class="crypto-list" id="crypto-list">
-                <!-- Bitcoin -->
                 <div class="crypto-item">
                     <img src="https://assets.coingecko.com/coins/images/1/small/bitcoin.png" alt="BTC">
                     <div class="coin-info">
@@ -117,7 +107,6 @@
                     </div>
                     <div class="coin-change" id="change-bitcoin">--%</div>
                 </div>
-                <!-- Ethereum -->
                 <div class="crypto-item">
                     <img src="https://assets.coingecko.com/coins/images/279/small/ethereum.png" alt="ETH">
                     <div class="coin-info">
@@ -126,7 +115,6 @@
                     </div>
                     <div class="coin-change" id="change-ethereum">--%</div>
                 </div>
-                <!-- Solana -->
                 <div class="crypto-item">
                     <img src="https://assets.coingecko.com/coins/images/4128/small/solana.png" alt="SOL">
                     <div class="coin-info">
@@ -135,7 +123,6 @@
                     </div>
                     <div class="coin-change" id="change-solana">--%</div>
                 </div>
-                <!-- Litecoin -->
                 <div class="crypto-item">
                     <img src="https://assets.coingecko.com/coins/images/2/small/litecoin.png" alt="LTC">
                     <div class="coin-info">
@@ -144,7 +131,6 @@
                     </div>
                     <div class="coin-change" id="change-litecoin">--%</div>
                 </div>
-                <!-- USDC -->
                 <div class="crypto-item">
                     <img src="https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png" alt="USDC">
                     <div class="coin-info">
@@ -158,21 +144,17 @@
 
     </div>
 
-    <!-- START EKRAN -->
     <div id="start-screen">
         <div id="start-text">KLIKNI ZA GAS</div>
     </div>
 
-    <!-- GLAVNI SADRŽAJ -->
     <div class="content" id="main-content">
         
-        <!-- DISCORD -->
         <div class="disk-container">
             <img id="discord-avatar" src="default.jpg" alt="Peki Avatar">
             <div id="status-indicator"></div>
         </div>
 
-        <!-- INFO -->
         <div class="discord-info">
             <h2 id="discord-username">Učitavam...</h2>
             
@@ -185,7 +167,6 @@
             </div>
         </div>
 
-        <!-- SKILLS -->
         <div class="skills">
             <i class="devicon-cplusplus-plain" title="C++"></i>
             <i class="devicon-python-plain" title="Python"></i>
@@ -194,7 +175,6 @@
             <i class="devicon-javascript-plain" title="JavaScript"></i>
         </div>
 
-        <!-- DONACIJE -->
         <div class="donations-wrapper">
             <div class="crypto-container">
                 <div class="crypto-btn btc" onclick="copyCrypto('bc1q2234p0gntgzyvazhy2vvpttr76wtenxrsx6c9c', this)">
@@ -218,7 +198,6 @@
             </div>
         </div>
 
-        <!-- KONTROLA ZVUKA -->
         <div class="volume-controls">
             <svg id="zvucnik" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
